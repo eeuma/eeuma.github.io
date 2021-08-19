@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> penic </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="app">
+
+            <div class="top-fixed">
+
+                <div class="top-app">
+
+                    <div class="greeting">
+                        <span class="greeting-top">Hello,</span>
+                        <span class="greeting-user">User</span>
+                    </div>
+                
+                </div>
+                
+                <div class="task-title"> Today`s tasks (favortes, remove)</div>
+    
+            </div>
+
+            <div class="task-container">
+
+                <div class="task-card-container">
+                 
+
+                    <div class="task-card">
+            
+                        <input class='task-card-checkbox' type="checkbox">
+            
+                        <div class="task-text"> your first task </div>
+            
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+    <div class="bottom-menu">
+        clear all task`
+        <button class="bottom-menu-button"> 
+           <span>+</span>
+        </button>
+        edit name
+    </div>
+
+
+    <div class="name-modal">
+        <div class="name-modal__content">
+
+            <!-- <div class="name-modal__close">&times;</div> -->
+
+            <div class="name-modal__title">
+                Enter your name:
+            </div>
+            <input class="user-name" type="text">
+
+            <button class="name-modal__button">submit</button>
+        </div>
+    </div>
+
+
+    <div class="post-modal">
+        <div class="post-modal__content">
+
+            <div class="post-modal__close">&times;</div>
+
+            <div class="post-modal__title">
+                Enter new task
+            </div>
+            
+            <textarea class="post-name"></textarea>
+
+            <button class="post-modal__button">submit</button>
+        </div>
+    </div>
+
+<script src="./js/main.js"></script>
+</body>
+</html>
