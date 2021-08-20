@@ -25,6 +25,7 @@ body {
     background-color: #e1f5fe;
     max-width: 340px;
     height: 115px;
+    z-index: 10;
 }
 
 .greeting {
@@ -93,11 +94,23 @@ body {
     align-items: center;
     background-color: #b3e5fc;
     margin-bottom: 15px;
-    padding: 15px 15px;
+    padding: 15px 40px 15px 15px;
     border-radius: 10px;
+    position: relative;
+
 }
 .task-card-checkbox {
-    margin-right: 10px;
+    margin-right: 20px;
+}
+.task-text {
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.task-remove{
+    cursor: pointer;
+    width: 20px;
+    position: absolute;
+    right: 15px;
 }
 .bottom-menu {
     position: fixed;
@@ -114,15 +127,17 @@ body {
 .bottom-menu-button{
     cursor: pointer;
     border: none;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
     border-radius: 50%;
     color: #b3e5fc;
-    background-color: #03a9f4;
+    background-color: transparent;
+}
+.bottom-menu-button svg{
+    fill: #fff
 }
 .name-modal{
     position: absolute;
@@ -134,7 +149,7 @@ body {
     /* opacity: 0.5; */
     display: flex;
     justify-content: center;
-
+    z-index: 11;
     display: none;
 }
 .name-modal__content{
@@ -182,7 +197,7 @@ body {
     /* opacity: 0.5; */
     display: flex;
     justify-content: center;
-
+    z-index: 11;
     display: none;
 }
 .post-modal__content{
@@ -222,4 +237,24 @@ body {
 }
 .post-name, .user-name{
     padding: 5px 10px;
+}
+.task-card-checkbox {
+    min-width: 20px;
+    min-height: 20px;
+}
+.clear-all-task {
+    border: none;
+    width: 100px;
+    margin-right: 20px;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+.edit-name {
+    cursor: pointer;
+    border: none;
+    width: 100px;
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 10px;
 }
