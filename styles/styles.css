@@ -63,6 +63,8 @@ body {
 }
 .task-text {
     word-wrap: break-word;
+    cursor: pointer;
+    max-width: 170px;
     overflow: hidden;
 }
 .task-remove{
@@ -79,13 +81,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 60px;
 }
 .bottom-menu-button{
     cursor: pointer;
     border: none;
-    height: 35px;
-    width: 35px;
+    height: 40px;
+    width: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -207,4 +209,10 @@ body {
     margin-left: 20px;
     padding: 5px;
     border-radius: 10px;
+}
+.favorite {
+    cursor: pointer;
+    width: 20px;
+    position: absolute;
+    right: 45px;
 }

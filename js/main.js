@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", ready);
 function ready() {
     //1)
     const nameModal = document.querySelector('.name-modal'),
-        postModal = document.querySelector('.post-modal')
+        postModal = document.querySelector('.post-modal'),
         nameModalButton = document.querySelector('.name-modal__button'),
         postModalButton = document.querySelector('.post-modal__button'),
         postModalClose = document.querySelector('.post-modal__close'),
@@ -16,7 +16,7 @@ function ready() {
     nameModal.style.display = "flex"
     
     let userName;
-    
+
     nameModalButton.addEventListener('click', ()=>{
         userName = document.querySelector('.user-name').value   
         if (userName) {
@@ -35,9 +35,7 @@ function ready() {
         document.querySelector(".greeting-user").textContent = localStorage.getItem('userName')
     }
 
-
     document.querySelector('.bottom-menu-button').addEventListener('click', ()=>{
-        postContent = document.querySelector('.post-content')
         postModal.style.display = 'flex'
 
         if (userName) {
@@ -51,101 +49,123 @@ function ready() {
         }
     })
 
-
     postModalClose.addEventListener('click', ()=>{
         postModal.style.display = 'none'
     })
 
+    let todoList = []
 
-    postModalButton.addEventListener('click', ()=>{
+    if (localStorage.getItem('todoList')) {
+        todoList = JSON.parse(localStorage.getItem('todoList'))
+        showTodo()
+    }
+
+    postModalButton.addEventListener('click', ()=> {
         let postName = document.querySelector('.post-name').value
 
         if (postName) {
             postModal.style.display = 'none'
-            postID = (postID+1)
-            const newPost = document.createElement('div')
-            newPost.className = 'task-card'
-            newPost.innerHTML = `
-            <input class='task-card-checkbox' type="checkbox">
 
-            <div id=${postID} class="task-text"> ${postName} </div>
+            let newTodo = {
+                name: postName,
+                checked: false,
+                favorite: false
+            }
+            todoList.push(newTodo)
 
-            <img class="task-remove" src="./img/delete.svg" alt="trash-icon">
-            `
-            document.querySelector('.task-card-container').append(newPost)
-            localStorage.setItem(postName+postID, postName)
+            localStorage.setItem('todoList', JSON.stringify(todoList))
+            document.querySelector('.post-name').value = ''
+            showTodo()
         } else {
             document.querySelector('.post-name').style.border = '2px solid red'
+            setTimeout( () => {
+                document.querySelector('.post-name').style.border = ''
+            }, 2000)
         }
-        
+    })
+
+    function showTodo(){
+        let newPost = ''
+
+        if (todoList.length > 0) {
+            todoList.forEach((item,id)=>{
+                newPost +=
+                    `
+                    <div class="task-card">
+                        <input class='task-card-checkbox' type="checkbox" id='item${id}' ${item.checked ? "checked" : ''}>
+                        <label for="item${id}" class="task-text">${item.name}</label>
+                        
+                        <img class="favorite" src="./img/star${item.favorite ? 2 : ''}.svg" alt="favorite-icon">
+                        <img class="task-remove" src="./img/delete.svg" alt="trash-icon">
+                    </div>
+                    `
+                document.querySelector('.task-card-container').innerHTML = newPost
+            })
+        } else {
+            document.querySelector('.task-card-container').innerHTML = ''
+        }
+    }
+
+    document.querySelector('.task-card-container').addEventListener('change', (event)=>{
+        let postID = event.target.id,
+            postName = document.querySelector('.task-card-container').querySelector(`[for=${postID}]`).textContent
+
+        todoList.forEach( (item) => {
+            if (item.name == postName) {
+                item.checked = !item.checked;
+                localStorage.setItem('todoList', JSON.stringify(todoList))
+            }
+        })
+
+        if (event.target.checked) {
+            event.target.offsetParent.style.opacity = '0.5'
+            event.target.offsetParent.style.textDecoration = 'line-through'
+        } else {
+            event.target.offsetParent.style.opacity = '1'
+            event.target.offsetParent.style.textDecoration = 'none'
+        }
     })
 
     document.addEventListener('click', (event)=>{
-        if(event.target && event.target.className == 'task-remove') {
-            postID = event.target.offsetParent.children[1].id
-            
-            if (localStorage.getItem(event.target.offsetParent.outerText+(postID))) {
-                localStorage.removeItem(event.target.offsetParent.outerText+(postID))
-            }
 
-            event.target.offsetParent.remove()
+        // REMOVE
+        if (event.target && event.target.className == 'task-remove') {
+            let postName = event.target.offsetParent.children[1].textContent
 
+            todoList.forEach( (item, i) => {
+                if (item.name == postName) {
+                    todoList.splice(i,1)
+                    localStorage.setItem('todoList', JSON.stringify(todoList))
+                    showTodo()
+                }
+            })
         }
 
-        if(event.target && event.target.className == 'task-card-checkbox') {
+        //FAVORITE
+        if (event.target && event.target.className == 'favorite') {
+            let postName = event.target.offsetParent.children[1].textContent
 
-            if (event.target.checked) {
-                
-                event.target.offsetParent.style.opacity = 0.5
-                event.target.offsetParent.style.textDecoration = 'line-through'
-            } else {
-                
-                event.target.offsetParent.style.opacity = 1
-                event.target.offsetParent.style.textDecoration = 'none'
-   
-            }
+            todoList.forEach( (item, i) => {
+                if (item.name == postName) {
+                    item.favorite = !item.favorite
+                    localStorage.setItem('todoList', JSON.stringify(todoList))
+                    showTodo()
+                }
+            })
+
         }
-
-        
     })
 
-
-    function allStorage() {
-
-        let archive = {}, 
-            keys = Object.keys(localStorage),
-            i = keys.length;
-    
-        while ( i-- ) {
-            archive[ keys[i] ] = localStorage.getItem( keys[i] );
-
-            if (keys[i] != 'userName') {
-
-                storageID = keys[i].replace(/\D/g, '')
-
-                document.querySelector('.task-card-container').innerHTML +=
-                    `   <div class="task-card">
-
-                            <input class='task-card-checkbox' type="checkbox">
-                            <div id=${storageID} class="task-text"> ${localStorage.getItem( keys[i])} </div>
-                            
-                            <img class="task-remove" src="./img/delete.svg" alt="trash-icon">
-                            
-                        </div>
-                    `
-            }
-        }
-    }
 
     editName.addEventListener('click', ()=>{
         nameModal.style.display = "flex"
     })
 
     clearAllTask.addEventListener('click', ()=>{
-        let archive = {}, 
+        let archive = {},
             keys = Object.keys(localStorage),
             i = keys.length;
-    
+
         while ( i-- ) {
             archive[ keys[i] ] = localStorage.getItem( keys[i] );
 
@@ -153,12 +173,10 @@ function ready() {
                 localStorage.removeItem(keys[i])
             }
         }
+        todoList = []
         document.querySelectorAll('.task-card').forEach(item=>{
             item.remove()
         })
     })
-    
-    allStorage()
-        
-    //2)
+
 }
