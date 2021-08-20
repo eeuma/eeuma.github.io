@@ -116,14 +116,6 @@ function ready() {
                 localStorage.setItem('todoList', JSON.stringify(todoList))
             }
         })
-
-        if (event.target.checked) {
-            event.target.offsetParent.style.opacity = '0.5'
-            event.target.offsetParent.style.textDecoration = 'line-through'
-        } else {
-            event.target.offsetParent.style.opacity = '1'
-            event.target.offsetParent.style.textDecoration = 'none'
-        }
     })
 
     document.addEventListener('click', (event)=>{
